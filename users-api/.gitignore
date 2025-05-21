@@ -1,0 +1,35 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Local development
+.env
+.vscode/
+*.log
+
+# AWS SAM
+.aws-sam/
+packaged.yaml
+samconfig.toml
+
+# Miscellaneous
+.DS_Store
+.idea/
+*.swp
+*.swo

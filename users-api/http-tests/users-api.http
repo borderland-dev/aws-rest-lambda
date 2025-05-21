@@ -1,0 +1,44 @@
+### Local API endpoint
+@baseUrl = http://localhost:5000
+
+### List all users
+GET {{baseUrl}}/api/v1/users HTTP/1.1
+
+### List users with pagination
+GET {{baseUrl}}/api/v1/users?page=1&limit=2 HTTP/1.1
+
+### Search users
+GET {{baseUrl}}/api/v1/users?search=John HTTP/1.1
+
+### Create a new user
+POST {{baseUrl}}/api/v1/users HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "John Smith",
+  "email": "john.smith@example.com"
+}
+
+### Get user by ID
+# Replace the user-id with an actual user ID from a previous response
+GET {{baseUrl}}/api/v1/users/user-id HTTP/1.1
+
+### Update a user
+# Replace the user-id with an actual user ID from a previous response
+PUT {{baseUrl}}/api/v1/users/user-id HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "John Smith Jr.",
+  "email": "john.jr@example.com"
+}
+
+### Delete a user
+# Replace the user-id with an actual user ID from a previous response
+DELETE {{baseUrl}}/api/v1/users/user-id HTTP/1.1
+
+### AWS API endpoint (after deployment)
+@awsUrl = https://your-api-id.execute-api.region.amazonaws.com/dev
+
+### List all users (AWS)
+GET {{awsUrl}}/api/v1/users HTTP/1.1

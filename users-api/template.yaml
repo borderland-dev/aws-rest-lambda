@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Users API Lambda Function
+
+Globals:
+  Function:
+    Timeout: 30
+    Runtime: python3.9
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        LOG_LEVEL: INFO
+        POWERTOOLS_SERVICE_NAME: users-api
+        POWERTOOLS_METRICS_NAMESPACE: UsersAPI
+
+Resources:
+  UsersAPIFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src.app.lambda_handler
+      Description: Users API Lambda Function
+      MemorySize: 256
+      Tracing: Active
+      Events:
+        ApiGatewayEvent:
+          Type: Api
+          Properties:
+            Path: /api/v1/{proxy+}
+            Method: ANY
+            RestApiId: !Ref UsersAPI
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSXrayWriteOnlyAccess
+
+  UsersAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: dev
+      EndpointConfiguration: REGIONAL
+      Cors:
+        AllowMethods: "'*'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+        AllowOrigin: "'*'"
+      OpenApiVersion: 3.0.1
+
+Outputs:
+  UsersAPIFunction:
+    Description: Users API Lambda Function ARN
+    Value: !GetAtt UsersAPIFunction.Arn
+  UsersAPIEndpoint:
+    Description: API Gateway endpoint URL for dev stage
+    Value: !Sub "https://${UsersAPI}.execute-api.${AWS::Region}.amazonaws.com/dev/api/v1/"
